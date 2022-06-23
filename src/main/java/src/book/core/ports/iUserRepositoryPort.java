@@ -1,12 +1,17 @@
 package src.book.core.ports;
 
-import src.book.core.entities.user;
+import org.springframework.stereotype.Component;
+import src.book.core.entities.userEntity;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface iUserRepositoryPort {
-    List<user> getAll();
+    List<userEntity> getAll();
 
-    Optional<user> getUserById(Long id);
+    Optional<userEntity> getUserById(Long id);
+
+    Optional<userEntity> getUserByUsername(String username);
+
+    userEntity insertUser(userEntity user);
 }

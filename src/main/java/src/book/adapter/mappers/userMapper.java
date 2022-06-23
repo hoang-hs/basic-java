@@ -1,21 +1,25 @@
 package src.book.adapter.mappers;
 
 import src.book.adapter.models.userModel;
-import src.book.core.entities.user;
+import src.book.core.entities.userEntity;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class userMapper {
-    public static List<user> convertUsersModelToEntity(List<userModel> userModels) {
-        List<user> users = new ArrayList<>();
+    public static List<userEntity> convertUsersModelToEntity(List<userModel> userModels) {
+        List<userEntity> users = new ArrayList<>();
         for (userModel userModel : userModels) {
-            users.add(new user(userModel.getId(), userModel.getUsername(), userModel.getPassword()));
+            users.add(new userEntity(userModel.getId(), userModel.getUsername(), userModel.getPassword()));
         }
         return users;
     }
 
-    public static user convertUserModelToEntity(userModel userModel) {
-        return new user(userModel.getId(), userModel.getUsername(), userModel.getPassword());
+    public static userEntity convertUserModelToEntity(userModel userModel) {
+        return new userEntity(userModel.getId(), userModel.getUsername(), userModel.getPassword());
+    }
+
+    public static userModel convertUserEntityToModel(userEntity user) {
+        return new userModel(user.getUsername(), user.getPassword());
     }
 }

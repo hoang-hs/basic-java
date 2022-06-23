@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import src.book.adapter.mappers.userMapper;
 import src.book.adapter.models.userModel;
 import src.book.adapter.repositories.database.userRepository;
-import src.book.core.entities.user;
+import src.book.core.entities.userEntity;
 import src.book.core.ports.iUserRepositoryPort;
 
 import java.util.List;
@@ -21,16 +21,29 @@ public class userRepositoryAdapter implements iUserRepositoryPort {
         this.userRepository = userRepository;
     }
 
-    @Override
-    public List<user> getAll() {
+    public List<userEntity> getAll() {
         return userMapper.convertUsersModelToEntity(userRepository.findAll());
     }
 
-    public Optional<user> getUserById(Long id) {
+    public Optional<userEntity> getUserById(Long id) {
         Optional<userModel> userModel = userRepository.findById(id);
         if (userModel.isEmpty()) {
             return Optional.empty();
         }
         return Optional.of(userMapper.convertUserModelToEntity(userModel.get()));
+    }
+
+    public Optional<userEntity> getUserByUsername(String username) {
+        Optional<userModel> userModel = userRepository.findByUsername(username);
+        if (userModel.isEmpty()) {
+            return Optional.empty();
+        }
+        return Optional.of(userMapper.convertUserModelToEntity(userModel.get()));
+    }
+
+    public userEntity insertUser(userEntity user) {
+        userModel userModel = userMapper.convertUserEntityToModel(user);
+        userModel userModelInsert = userRepository.save(userModel);
+        return userMapper.convertUserModelToEntity(userModelInsert);
     }
 }

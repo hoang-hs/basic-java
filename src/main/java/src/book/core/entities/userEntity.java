@@ -1,12 +1,17 @@
 package src.book.core.entities;
 
-public class user {
+public class userEntity {
     private Long id;
     private String username;
     private String password;
 
-    public user(Long id, String username, String password) {
+    public userEntity(Long id, String username, String password) {
         this.id = id;
+        this.username = username;
+        this.password = password;
+    }
+
+    public userEntity(String username, String password) {
         this.username = username;
         this.password = password;
     }
