@@ -1,7 +1,5 @@
 package src.book.core.entities;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 public class user {
     private Long id;
     private String username;

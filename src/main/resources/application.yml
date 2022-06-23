@@ -1,0 +1,11 @@
+server:
+  port: 8081
+
+security:
+  jwt:
+    secret: "abc"
+    expire-length: 300000 # 5 minutes duration by default: 5 minutes * 60 seconds * 1000 miliseconds
+
+logging:
+  level:
+    org.springframework.web.filter.CommonsRequestLoggingFilter: debug

@@ -1,11 +1,12 @@
 package src.book.core.usecases;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
-import src.book.core.entities.response;
 import src.book.core.entities.user;
 import src.book.core.ports.iUserRepositoryPort;
+import src.book.exception.resourceNotFoundException;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,6 +14,7 @@ import java.util.Optional;
 @Component
 public class getUserUseCase {
 
+    private static final Logger logger = LoggerFactory.getLogger(getUserUseCase.class);
     private final iUserRepositoryPort userRepositoryPort;
 
     @Autowired
@@ -20,15 +22,16 @@ public class getUserUseCase {
         this.userRepositoryPort = userRepositoryPort;
     }
 
-    public response getAll() {
-        return new response(userRepositoryPort.getAll());
+    public List<user> getAll() {
+        return userRepositoryPort.getAll();
     }
 
-    public response getUserById(Long id) {
+    public user getUserById(Long id) {
         Optional<user> user = userRepositoryPort.getUserById(id);
         if (user.isEmpty()) {
-            return new response(HttpStatus.NOT_FOUND, "resource not found");
+            logger.warn("user not found, id: {}", id);
+            throw resourceNotFoundException.Default();
         }
-        return new response(user.get());
+        return user.get();
     }
 }
