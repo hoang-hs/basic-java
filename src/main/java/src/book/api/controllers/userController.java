@@ -10,17 +10,19 @@ import src.book.core.entities.userEntity;
 import src.book.core.usecases.getUserUseCase;
 import src.book.core.usecases.insertUserUseCase;
 
+import javax.validation.constraints.Min;
 import java.util.List;
 
 @RestController
 @RequestMapping("/user")
+@Validated
 public class userController extends baseController {
 
     private final getUserUseCase getUserUseCase;
     private final insertUserUseCase insertUserUseCase;
 
     @Autowired
-    public userController(getUserUseCase getUserUseCase, src.book.core.usecases.insertUserUseCase insertUserUseCase) {
+    public userController(getUserUseCase getUserUseCase, insertUserUseCase insertUserUseCase) {
         this.getUserUseCase = getUserUseCase;
         this.insertUserUseCase = insertUserUseCase;
     }
@@ -32,7 +34,7 @@ public class userController extends baseController {
     }
 
     @GetMapping("/{id}")
-    ResponseEntity<Object> getUserById(@PathVariable  Long id) {
+    ResponseEntity<Object> getUserById(@PathVariable("id") @Min(1) Long id) {
         userEntity user = getUserUseCase.getUserById(id);
         return responseData(userMapper.NewUserResource(user));
     }

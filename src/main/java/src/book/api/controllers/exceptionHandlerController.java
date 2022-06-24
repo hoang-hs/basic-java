@@ -11,6 +11,8 @@ import src.book.api.resources.errResource;
 import src.book.core.usecases.getUserUseCase;
 import src.book.exception.appException;
 
+import javax.validation.ConstraintViolationException;
+
 @RestControllerAdvice
 public class exceptionHandlerController {
 
@@ -18,9 +20,17 @@ public class exceptionHandlerController {
 
 
     @ExceptionHandler(appException.class)
-    public ResponseEntity<errResource> handleException(appException ex) {
+    public ResponseEntity<errResource> handleAppException(appException ex) {
         errResource err = new errResource(ex.getHttpStatus().value(), ex.getMessage());
         return ResponseEntity.status(ex.getHttpStatus()).body(err);
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<errResource> handleConstraintViolationException(ConstraintViolationException ex, WebRequest request) {
+        logger.warn("msg: [{}], request description: [{}]", ex.getMessage(), request.getDescription(false));
+        ex.printStackTrace();
+        errResource err = new errResource(HttpStatus.BAD_REQUEST.value(), "invalid request");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
     }
 
     @ExceptionHandler(Exception.class)
