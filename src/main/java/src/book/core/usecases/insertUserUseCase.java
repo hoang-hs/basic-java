@@ -24,18 +24,12 @@ import java.util.Optional;
 public class insertUserUseCase {
     private static final Logger logger = LoggerFactory.getLogger(getUserUseCase.class);
     private final iUserRepositoryPort userRepositoryPort;
-//    @Autowired
-//    PasswordEncoder encoder;
-
-//    @Autowired
-//    public insertUserUseCase(iUserRepositoryPort userRepositoryPort, PasswordEncoder encoder) {
-//        this.userRepositoryPort = userRepositoryPort;
-//        this.encoder = encoder;
-//    }
+    PasswordEncoder encoder;
 
     @Autowired
     public insertUserUseCase(iUserRepositoryPort userRepositoryPort) {
         this.userRepositoryPort = userRepositoryPort;
+        this.encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
     public userEntity insertUser(userRequest userReq) {
@@ -43,8 +37,8 @@ public class insertUserUseCase {
         if (user.isPresent()) {
             throw new appException("username have been exist", HttpStatus.NOT_IMPLEMENTED);
         }
-        //String password = encoder.encode(userReq.getPassword());
-        PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+//        String password = encoder.encode(userReq.getPassword());
+//        PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
         String password = encoder.encode(userReq.getPassword());
         userEntity userEntity = new userEntity(userReq.getUsername(), password);
         return userRepositoryPort.insertUser(userEntity);
