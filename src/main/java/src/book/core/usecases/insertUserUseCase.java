@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -32,8 +33,6 @@ public class insertUserUseCase {
         if (user.isPresent()) {
             throw new appException("username have been exist", HttpStatus.NOT_IMPLEMENTED);
         }
-//        String password = encoder.encode(userReq.getPassword());
-//        PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
         String password = encoder.encode(userReq.getPassword());
         userEntity userEntity = new userEntity(userReq.getUsername(), password);
         return userRepositoryPort.insertUser(userEntity);

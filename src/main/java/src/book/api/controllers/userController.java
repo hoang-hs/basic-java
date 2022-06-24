@@ -34,9 +34,9 @@ public class userController extends baseController {
     }
 
     @GetMapping("/{id}")
-    ResponseEntity<Object> getUserById(@PathVariable @Min(0) Long id) {
+    ResponseEntity<Object> getUserById(@PathVariable @Min(1) Long id) {
         userEntity user = getUserUseCase.getUserById(id);
-        return responseData(userMapper.NewUserResource(user));
+        return responseData(userMapper.NewUserResourceWithPassword(user));
     }
 
     @PostMapping("")

@@ -4,7 +4,7 @@ server:
 security:
   jwt:
     secret: "abc"
-    expire-length: 300000 # 5 minutes duration by default: 5 minutes * 60 seconds * 1000 miliseconds
+    expire-length: 15 # 5 minutes duration by default: 5 minutes * 60 seconds * 1000 miliseconds
 
 logging:
   level:
