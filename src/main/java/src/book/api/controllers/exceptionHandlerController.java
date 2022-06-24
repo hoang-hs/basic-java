@@ -13,6 +13,7 @@ import src.book.exception.appException;
 
 import javax.validation.ConstraintViolationException;
 
+
 @RestControllerAdvice
 public class exceptionHandlerController {
 
@@ -20,7 +21,7 @@ public class exceptionHandlerController {
 
 
     @ExceptionHandler(appException.class)
-    public ResponseEntity<errResource> handleAppException(appException ex) {
+    public ResponseEntity<errResource> handleException(appException ex) {
         errResource err = new errResource(ex.getHttpStatus().value(), ex.getMessage());
         return ResponseEntity.status(ex.getHttpStatus()).body(err);
     }
