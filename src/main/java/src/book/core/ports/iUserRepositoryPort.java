@@ -1,6 +1,5 @@
 package src.book.core.ports;
 
-import org.springframework.stereotype.Component;
 import src.book.core.entities.userEntity;
 
 import java.util.List;

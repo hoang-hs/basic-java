@@ -22,7 +22,7 @@ public class userController extends baseController {
     private final insertUserUseCase insertUserUseCase;
 
     @Autowired
-    public userController(getUserUseCase getUserUseCase, src.book.core.usecases.insertUserUseCase insertUserUseCase) {
+    public userController(getUserUseCase getUserUseCase, insertUserUseCase insertUserUseCase) {
         this.getUserUseCase = getUserUseCase;
         this.insertUserUseCase = insertUserUseCase;
     }
@@ -34,7 +34,7 @@ public class userController extends baseController {
     }
 
     @GetMapping("/{id}")
-    ResponseEntity<Object> getUserById(@PathVariable @Min(5)  Long id) {
+    ResponseEntity<Object> getUserById(@PathVariable @Min(0) Long id) {
         userEntity user = getUserUseCase.getUserById(id);
         return responseData(userMapper.NewUserResource(user));
     }
