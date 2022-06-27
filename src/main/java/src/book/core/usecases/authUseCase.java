@@ -1,8 +1,7 @@
 package src.book.core.usecases;
 
 
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +22,7 @@ import java.util.Optional;
 
 @Service
 public class authUseCase {
-    private static final Logger logger = LoggerFactory.getLogger(getUserUseCase.class);
+    private static final Logger log = LoggerFactory.getLogger(getUserUseCase.class);
 
     @Value("${security.jwt.secret}")
     private String secretKey;
@@ -62,5 +61,21 @@ public class authUseCase {
                 .signWith(SignatureAlgorithm.HS512, secretKey.getBytes(StandardCharsets.UTF_8))
                 .compact();
         return new tokenEntity(at, expireLength, "a", 1);
+    }
+
+    public boolean validateToken(String token) {
+        try {
+            Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
+            return true;
+        } catch (MalformedJwtException ex) {
+            log.error("Invalid JWT token");
+        } catch (ExpiredJwtException ex) {
+            log.error("Expired JWT token");
+        } catch (UnsupportedJwtException ex) {
+            log.error("Unsupported JWT token");
+        } catch (IllegalArgumentException ex) {
+            log.error("JWT claims string is empty.");
+        }
+        return false;
     }
 }
