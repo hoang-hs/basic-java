@@ -1,7 +1,11 @@
 package src.book.api.requests;
 
+import javax.validation.constraints.NotBlank;
+
 public class userRequest {
+    @NotBlank
     String username;
+    @NotBlank
     String password;
 
     public userRequest(String username, String password) {

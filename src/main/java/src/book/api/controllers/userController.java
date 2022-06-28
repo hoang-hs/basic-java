@@ -6,11 +6,11 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import src.book.api.convert.userConvert;
 import src.book.api.requests.userRequest;
-import src.book.api.resources.userResource;
 import src.book.core.entities.userEntity;
 import src.book.core.usecases.getUserUseCase;
 import src.book.core.usecases.insertUserUseCase;
 
+import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import java.util.List;
 
@@ -44,7 +44,7 @@ public class userController extends baseController {
     }
 
     @PostMapping("")
-    ResponseEntity<Object> insertUser(@RequestBody userRequest userReq) {
+    ResponseEntity<Object> insertUser(@RequestBody @Valid userRequest userReq) {
         userEntity user = insertUserUseCase.insertUser(userReq);
         return responseData(userConvert.convertUserEntityToResource(user));
     }
