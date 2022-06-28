@@ -2,6 +2,7 @@ package src.book.api.middleware;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.util.ContentCachingRequestWrapper;
@@ -36,9 +37,10 @@ public class log extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         long startTime = System.currentTimeMillis();
         UUID uuid = UUID.randomUUID();
+        MDC.put("request_id", uuid.toString());
         String reqInfo = String.format("id :%s, method: %s, url: %s, query: %s, user agent: %s",
                 uuid, request.getMethod(), request.getRequestURL(), request.getQueryString(), request.getHeader("User-Agent"));
-        logger.info("req: [{}] ", reqInfo);
+        logger.info("request: [{}] ", reqInfo);
 
         // ========= Log request and response payload ("body") ========
         // We CANNOT simply read the request payload here, because then the InputStream would be consumed and cannot be read again by the actual processing/server.
@@ -55,7 +57,7 @@ public class log extends OncePerRequestFilter {
             logger.debug("   Request body:\n" + requestBody);
         }
         String resInfo = String.format("id :%s, http status: %s, time: %sms", uuid, response.getStatus(), duration);
-        logger.info("res: [{}]", resInfo);
+        logger.info("response: [{}]", resInfo);
 
         byte[] buf = wrappedResponse.getContentAsByteArray();
         logger.debug("   Response body:\n" + getContentAsString(buf, this.maxPayloadLength, response.getCharacterEncoding()));

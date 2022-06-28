@@ -4,11 +4,24 @@ server:
 security:
   jwt:
     secret: "abc"
-    expire-length: 15 # 5 minutes duration by default: 5 minutes * 60 seconds * 1000 miliseconds
+    expire-length: 15 #minute
 
 logging:
   level:
     org.springframework.web.filter.CommonsRequestLoggingFilter: debug
+
 spring:
   jackson:
     default-property-inclusion: NON_NULL
+  datasource:
+    url: jdbc:mysql://localhost:3306/book
+    username: root
+    password: 1
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.MySQL5Dialect
