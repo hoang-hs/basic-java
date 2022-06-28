@@ -16,7 +16,7 @@ public class baseController {
     }
 
     ResponseEntity<Object> responseData(Object data) {
-        return ResponseEntity.status(HttpStatus.OK).body(data);
+        return ResponseEntity.ok(data);
     }
 
 }

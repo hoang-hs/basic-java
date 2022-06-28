@@ -14,19 +14,13 @@ public class userModel {
     @Column(name = "password", nullable = false)
     private String password;
 
-    public userModel() {
-
-    }
-
-    public userModel(Long id, String username, String password) {
-        this.id = id;
-        this.username = username;
-        this.password = password;
-    }
-
     public userModel(String name, String password) {
         this.username = name;
         this.password = password;
+    }
+
+    public userModel() {
+
     }
 
     public Long getId() {

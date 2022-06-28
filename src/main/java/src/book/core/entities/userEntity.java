@@ -5,10 +5,7 @@ public class userEntity {
     private String username;
     private String password;
 
-    public userEntity(Long id, String username, String password) {
-        this.id = id;
-        this.username = username;
-        this.password = password;
+    public userEntity() {
     }
 
     public userEntity(String username, String password) {

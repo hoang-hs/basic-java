@@ -15,14 +15,16 @@ import java.util.Optional;
 @Component
 public class userRepositoryAdapter implements iUserRepositoryPort {
     private final userRepository userRepository;
+    private final userMapper userMapper;
 
     @Autowired
-    public userRepositoryAdapter(userRepository userRepository) {
+    public userRepositoryAdapter(userRepository userRepository, src.book.adapter.mappers.userMapper userMapper) {
         this.userRepository = userRepository;
+        this.userMapper = userMapper;
     }
 
     public List<userEntity> getAll() {
-        return userMapper.convertUsersModelToEntity(userRepository.findAll());
+        return userMapper.mapperUsersModelToEntity(userRepository.findAll());
     }
 
     public Optional<userEntity> getUserById(Long id) {
@@ -30,7 +32,7 @@ public class userRepositoryAdapter implements iUserRepositoryPort {
         if (userModel.isEmpty()) {
             return Optional.empty();
         }
-        return Optional.of(userMapper.convertUserModelToEntity(userModel.get()));
+        return Optional.of(userMapper.mapperUserModelToEntity(userModel.get()));
     }
 
     public Optional<userEntity> getUserByUsername(String username) {
@@ -38,12 +40,12 @@ public class userRepositoryAdapter implements iUserRepositoryPort {
         if (userModel.isEmpty()) {
             return Optional.empty();
         }
-        return Optional.of(userMapper.convertUserModelToEntity(userModel.get()));
+        return Optional.of(userMapper.mapperUserModelToEntity(userModel.get()));
     }
 
     public userEntity insertUser(userEntity user) {
-        userModel userModel = userMapper.convertUserEntityToModel(user);
+        userModel userModel = userMapper.mapperUserEntityToModel(user);
         userModel userModelInsert = userRepository.save(userModel);
-        return userMapper.convertUserModelToEntity(userModelInsert);
+        return userMapper.mapperUserModelToEntity(userModelInsert);
     }
 }

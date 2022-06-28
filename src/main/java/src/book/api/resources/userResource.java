@@ -1,24 +1,18 @@
 package src.book.api.resources;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import src.book.core.entities.userEntity;
 
 public class userResource {
+
     @JsonProperty("id")
     private Long id;
     @JsonProperty("username")
     private String username;
 
-    @JsonProperty("password")
-    private String password;
-    public userResource(Long id, String username) {
-        this.id = id;
-        this.username = username;
-    }
-
-    public userResource(Long id, String username, String password) {
-        this.id = id;
-        this.username = username;
-        this.password = password;
+    public userResource() {
     }
 
     public Long getId() {
@@ -37,11 +31,5 @@ public class userResource {
         this.username = username;
     }
 
-    public String getPassword() {
-        return password;
-    }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
 }
