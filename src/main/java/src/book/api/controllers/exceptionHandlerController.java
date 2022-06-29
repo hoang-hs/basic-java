@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -55,6 +56,15 @@ public class exceptionHandlerController {
         logger.warn("id: {}, msg: {}, request description: {}", uuid, ex.getMessage(), request.getDescription(false));
 //        ex.printStackTrace();
         return new errResource(HttpStatus.NOT_FOUND.value(), "method not support");
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    public errResource handleHttpMessageNotReadableException(HttpMessageNotReadableException ex, WebRequest request) {
+        String uuid = MDC.get("request_id");
+        logger.warn("id: {}, msg: {}, request description: {}", uuid, ex.getMessage(), request.getDescription(false));
+//        ex.printStackTrace();
+        return new errResource(HttpStatus.BAD_REQUEST.value(), "message not readable");
     }
 
     @ExceptionHandler(Exception.class)

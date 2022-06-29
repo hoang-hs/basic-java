@@ -2,15 +2,15 @@ package src.book.core.entities;
 
 public class tokenEntity {
     private String AccessToken;
-    private int AtExpireIn;
+    private int AtExpiresIn;
     private String RefreshToken;
-    private int RfExpireIn;
+    private int RfExpiresIn;
 
-    public tokenEntity(String accessToken, int atExpireIn, String refreshToken, int rfExpireIn) {
+    public tokenEntity(String accessToken, int atExpiresIn, String refreshToken, int rfExpiresIn) {
         AccessToken = accessToken;
-        AtExpireIn = atExpireIn;
+        AtExpiresIn = atExpiresIn;
         RefreshToken = refreshToken;
-        RfExpireIn = rfExpireIn;
+        RfExpiresIn = rfExpiresIn;
     }
 
     public String getAccessToken() {
@@ -21,12 +21,12 @@ public class tokenEntity {
         AccessToken = accessToken;
     }
 
-    public int getAtExpireIn() {
-        return AtExpireIn;
+    public int getAtExpiresIn() {
+        return AtExpiresIn;
     }
 
-    public void setAtExpireIn(int atExpireIn) {
-        AtExpireIn = atExpireIn;
+    public void setAtExpiresIn(int atExpiresIn) {
+        AtExpiresIn = atExpiresIn;
     }
 
     public String getRefreshToken() {
@@ -37,11 +37,11 @@ public class tokenEntity {
         RefreshToken = refreshToken;
     }
 
-    public int getRfExpireIn() {
-        return RfExpireIn;
+    public int getRfExpiresIn() {
+        return RfExpiresIn;
     }
 
-    public void setRfExpireIn(int rfExpireIn) {
-        RfExpireIn = rfExpireIn;
+    public void setRfExpiresIn(int rfExpiresIn) {
+        RfExpiresIn = rfExpiresIn;
     }
 }

@@ -15,8 +15,4 @@ public class baseController {
         return "pong";
     }
 
-    ResponseEntity<Object> responseData(Object data) {
-        return ResponseEntity.ok(data);
-    }
-
 }

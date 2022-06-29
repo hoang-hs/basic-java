@@ -1,9 +1,6 @@
 package src.book.api.resources;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import src.book.core.entities.userEntity;
 
 public class userResource {
 
