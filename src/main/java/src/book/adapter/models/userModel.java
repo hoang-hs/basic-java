@@ -1,5 +1,7 @@
 package src.book.adapter.models;
 
+import src.book.core.enums.roles;
+
 import javax.persistence.*;
 
 @Entity
@@ -14,9 +16,13 @@ public class userModel {
     @Column(name = "password", nullable = false)
     private String password;
 
-    public userModel(String name, String password) {
+    @Column(name = "role", nullable = false)
+    private String role;
+
+    public userModel(String name, String password, roles role) {
         this.username = name;
         this.password = password;
+        this.role = role.toString();
     }
 
     public userModel() {
@@ -47,5 +53,11 @@ public class userModel {
         this.password = password;
     }
 
+    public String getRole() {
+        return role;
+    }
 
+    public void setRole(roles role) {
+        this.role = role.toString();
+    }
 }

@@ -1,5 +1,9 @@
 package src.book.api.requests;
 
+import src.book.core.enums.roles;
+
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.validation.constraints.NotBlank;
 
 public class userRequest {
@@ -7,10 +11,13 @@ public class userRequest {
     String username;
     @NotBlank
     String password;
+    @ValuesAllowd()
+    String role;
 
-    public userRequest(String username, String password) {
+    public userRequest(String username, String password, String role) {
         this.username = username;
         this.password = password;
+        this.role = role;
     }
 
     public String getUsername() {
@@ -28,4 +35,13 @@ public class userRequest {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
 }
