@@ -8,8 +8,8 @@ import src.book.exception.systemErrorException;
 
 public enum roles {
 
-    ADMIN("ROLE_ADMIN"),
-    CLIENT("ROLE_CLIENT");
+    ADMIN("ADMIN"),
+    CLIENT("CLIENT");
     private final String role;
 
     private static final Logger logger = LoggerFactory.getLogger(getUserUseCase.class);
@@ -30,6 +30,16 @@ public enum roles {
         }
         logger.warn("role invalid, role: {}", role);
         throw systemErrorException.Default();
+    }
+
+    public static boolean isMember(String role) {
+        roles[] allRole = roles.values();
+        for (roles r : allRole) {
+            if (r.role.equals(role)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override

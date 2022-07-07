@@ -1,5 +1,6 @@
 package src.book.api.requests;
 
+import src.book.api.validate.roleAnnotation;
 import src.book.core.enums.roles;
 
 import javax.persistence.EnumType;
@@ -11,7 +12,7 @@ public class userRequest {
     String username;
     @NotBlank
     String password;
-    @ValuesAllowd()
+    @roleAnnotation
     String role;
 
     public userRequest(String username, String password, String role) {
