@@ -13,44 +13,42 @@ import src.book.core.usecases.InsertUserUseCase;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 @RequestMapping("/user")
 @Validated
-public class UserController extends baseController {
+public class UserController extends BaseController {
 
     private final GetUserUseCase getUserUseCase;
     private final InsertUserUseCase insertUserUseCase;
 
-    private final UserConvert userConvert;
 
     @Autowired
-    public UserController(GetUserUseCase getUserUseCase, InsertUserUseCase insertUserUseCase, UserConvert userConvert) {
+    public UserController(GetUserUseCase getUserUseCase, InsertUserUseCase insertUserUseCase) {
         this.getUserUseCase = getUserUseCase;
         this.insertUserUseCase = insertUserUseCase;
-        this.userConvert = userConvert;
     }
 
     @GetMapping("")
     @ResponseStatus(value = HttpStatus.OK)
     List<UserResource> getAllUser() {
         List<UserEntity> users = getUserUseCase.getAll();
-        return userConvert.convertListUsersEntityToResource(users);
+        return UserConvert.Cloner.usersEntityToResource(users);
     }
 
     @GetMapping("/{id}")
     @ResponseStatus(value = HttpStatus.OK)
     UserResource getUserById(@PathVariable @Min(1) Long id) {
         UserEntity user = getUserUseCase.getUserById(id);
-        return userConvert.convertUserEntityToResource(user);
+        return UserConvert.Cloner.userEntityToResource(user);
     }
 
     @PostMapping("")
     @ResponseStatus(value = HttpStatus.OK)
     UserResource insertUser(@RequestBody @Valid UserRequest userReq) {
         UserEntity user = insertUserUseCase.insertUser(userReq);
-        return userConvert.convertUserEntityToResource(user);
+        return UserConvert.Cloner.userEntityToResource(user);
     }
-
 }

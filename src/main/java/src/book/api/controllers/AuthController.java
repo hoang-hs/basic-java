@@ -16,21 +16,18 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping("/auth")
 @Validated
-public class AuthController extends baseController {
+public class AuthController extends BaseController {
     private final AuthUseCase authUseCase;
 
-    private final TokenConvert tokenConvert;
-
     @Autowired
-    public AuthController(AuthUseCase authUseCase, TokenConvert tokenConvert) {
+    public AuthController(AuthUseCase authUseCase) {
         this.authUseCase = authUseCase;
-        this.tokenConvert = tokenConvert;
     }
 
     @GetMapping("/login")
     @ResponseStatus(value = HttpStatus.OK)
     TokenResource login(@RequestBody @Valid UserRequest userReq) {
         TokenEntity token = authUseCase.login(userReq);
-        return tokenConvert.convertTokenEntityToResource(token);
+        return TokenConvert.cloner.tokenEntityToResource(token);
     }
 }

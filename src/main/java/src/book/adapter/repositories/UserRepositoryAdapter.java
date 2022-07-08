@@ -9,30 +9,30 @@ import src.book.adapter.repositories.database.UserRepository;
 import src.book.core.entities.UserEntity;
 import src.book.core.ports.IUserRepositoryPort;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Component
 public class UserRepositoryAdapter implements IUserRepositoryPort {
     private final UserRepository userRepository;
-    private final UserMapper userMapper;
 
     @Autowired
-    public UserRepositoryAdapter(UserRepository userRepository, UserMapper userMapper) {
+    public UserRepositoryAdapter(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.userMapper = userMapper;
     }
 
     public List<UserEntity> getAll() {
-        return userMapper.mapperUsersModelToEntity(userRepository.findAll());
+        List<UserModel> userModels = userRepository.findAll();
+        return UserMapper.MAPPER.usersModelToEntity(userModels);
     }
 
     public Optional<UserEntity> getUserById(Long id) {
-        Optional<UserModel> UserModel = userRepository.findById(id);
-        if (UserModel.isEmpty()) {
+        Optional<UserModel> userModel = userRepository.findById(id);
+        if (userModel.isEmpty()) {
             return Optional.empty();
         }
-        return Optional.of(userMapper.mapperUserModelToEntity(UserModel.get()));
+        return Optional.of(UserMapper.MAPPER.userModelToEntity(userModel.get()));
     }
 
     public Optional<UserEntity> getUserByUsername(String username) {
@@ -40,12 +40,12 @@ public class UserRepositoryAdapter implements IUserRepositoryPort {
         if (userModel.isEmpty()) {
             return Optional.empty();
         }
-        return Optional.of(userMapper.mapperUserModelToEntity(userModel.get()));
+        return Optional.of(UserMapper.MAPPER.userModelToEntity(userModel.get()));
     }
 
     public UserEntity insertUser(UserEntity user) {
-        UserModel UserModel = userMapper.mapperUserEntityToModel(user);
+        UserModel UserModel = UserMapper.MAPPER.userEntityToModel(user);
         UserModel UserModelInsert = userRepository.save(UserModel);
-        return userMapper.mapperUserModelToEntity(UserModelInsert);
+        return UserMapper.MAPPER.userModelToEntity(UserModelInsert);
     }
 }

@@ -1,37 +1,21 @@
 package src.book.adapter.mappers;
 
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.mapstruct.Mapper;
+import org.mapstruct.factory.Mappers;
 import src.book.adapter.models.UserModel;
 import src.book.core.entities.UserEntity;
 
-import java.util.ArrayList;
 import java.util.List;
 
-@Component
-public class UserMapper {
+@Mapper
+public interface UserMapper {
 
-    private final ModelMapper mapper;
+    UserMapper MAPPER = Mappers.getMapper(UserMapper.class);
 
-    @Autowired
-    public UserMapper(ModelMapper mapper) {
-        this.mapper = mapper;
-    }
+    UserEntity userModelToEntity(UserModel userModel);
 
-    public List<UserEntity> mapperUsersModelToEntity(List<UserModel> UserModels) {
-        List<UserEntity> users = new ArrayList<>();
-        for (UserModel userModel : UserModels) {
-            users.add(mapper.map(userModel, UserEntity.class));
-        }
-        return users;
-    }
+    UserModel userEntityToModel(UserEntity userEntity);
 
-    public UserEntity mapperUserModelToEntity(UserModel UserModel) {
-        return mapper.map(UserModel, UserEntity.class);
-    }
+    List<UserEntity> usersModelToEntity(List<UserModel> usersModel);
 
-    public UserModel mapperUserEntityToModel(UserEntity user) {
-        return mapper.map(user, UserModel.class);
-    }
 }

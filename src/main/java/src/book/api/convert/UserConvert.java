@@ -1,35 +1,29 @@
 package src.book.api.convert;
 
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.mapstruct.Mapper;
+import org.mapstruct.factory.Mappers;
 import src.book.api.resources.UserResource;
 import src.book.core.entities.UserEntity;
 
-import java.util.ArrayList;
 import java.util.List;
 
-@Component
-public class UserConvert {
+@Mapper
+public interface UserConvert {
 
-    private final ModelMapper mapper;
+    UserConvert Cloner = Mappers.getMapper(UserConvert.class);
 
-    @Autowired
-    public UserConvert(ModelMapper mapper) {
-        this.mapper = mapper;
-    }
+    UserResource userEntityToResource(UserEntity user);
 
-    public List<UserResource> convertListUsersEntityToResource(List<UserEntity> users) {
-        List<UserResource> usersResource = new ArrayList<>();
-        for (UserEntity user : users) {
-            usersResource.add(mapper.map(user, UserResource.class));
-        }
-        return usersResource;
-    }
-
-    public UserResource convertUserEntityToResource(UserEntity user) {
-        return mapper.map(user, UserResource.class);
-    }
-
-
+//    public List<UserResource> convertListUsersEntityToResource(List<UserEntity> users) {
+//        List<UserResource> usersResource = new ArrayList<>();
+//        for (UserEntity user : users) {
+//            usersResource.add(mapper.map(user, UserResource.class));
+//        }
+//        return usersResource;
+//    }
+//
+//    public UserResource convertUserEntityToResource(UserEntity user) {
+//        return mapper.map(user, UserResource.class);
+//    }
+    List<UserResource> usersEntityToResource(List<UserEntity> usersEntity);
 }
