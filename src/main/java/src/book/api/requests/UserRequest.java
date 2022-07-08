@@ -1,16 +1,21 @@
 package src.book.api.requests;
 
+import src.book.api.validate.RoleAnnotation;
+
 import javax.validation.constraints.NotBlank;
 
-public class userRequest {
+public class UserRequest {
     @NotBlank
     String username;
     @NotBlank
     String password;
+    @RoleAnnotation(message = "role invalid aa")
+    String role;
 
-    public userRequest(String username, String password) {
+    public UserRequest(String username, String password, String role) {
         this.username = username;
         this.password = password;
+        this.role = role;
     }
 
     public String getUsername() {
@@ -28,4 +33,13 @@ public class userRequest {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
 }
