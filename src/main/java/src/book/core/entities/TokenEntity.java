@@ -1,12 +1,12 @@
 package src.book.core.entities;
 
-public class tokenEntity {
+public class TokenEntity {
     private String AccessToken;
     private int AtExpiresIn;
     private String RefreshToken;
     private int RfExpiresIn;
 
-    public tokenEntity(String accessToken, int atExpiresIn, String refreshToken, int rfExpiresIn) {
+    public TokenEntity(String accessToken, int atExpiresIn, String refreshToken, int rfExpiresIn) {
         AccessToken = accessToken;
         AtExpiresIn = atExpiresIn;
         RefreshToken = refreshToken;

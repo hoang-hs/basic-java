@@ -7,7 +7,7 @@ import java.lang.annotation.*;
 @Constraint(validatedBy = RoleValidator.class)
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface roleAnnotation {
+public @interface RoleAnnotation {
     String message() default "invalid role user";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};

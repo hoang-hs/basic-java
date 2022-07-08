@@ -2,7 +2,7 @@ package src.book.api.resources;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class tokenResource {
+public class TokenResource {
     @JsonProperty("access_token")
     private String accessToken;
     @JsonProperty("at_expires_in")
@@ -12,7 +12,7 @@ public class tokenResource {
     @JsonProperty("rf_expires_in")
     private int rfExpiresIn;
 
-    public tokenResource() {
+    public TokenResource() {
     }
 
     public String getAccessToken() {

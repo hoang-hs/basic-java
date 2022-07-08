@@ -2,10 +2,10 @@ package src.book.exception;
 
 import org.springframework.http.HttpStatus;
 
-public class appException extends RuntimeException {
+public class AppException extends RuntimeException {
     private HttpStatus httpStatus;
 
-    public appException(String message, HttpStatus httpStatus) {
+    public AppException(String message, HttpStatus httpStatus) {
         super(message);
         this.httpStatus = httpStatus;
     }

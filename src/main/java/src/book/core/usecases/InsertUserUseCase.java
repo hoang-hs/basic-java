@@ -7,33 +7,33 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import src.book.api.requests.userRequest;
-import src.book.core.entities.userEntity;
-import src.book.core.ports.iUserRepositoryPort;
-import src.book.exception.appException;
+import src.book.api.requests.UserRequest;
+import src.book.core.entities.UserEntity;
+import src.book.core.ports.IUserRepositoryPort;
+import src.book.exception.AppException;
 
 import java.util.Optional;
 
 
 @Service
-public class insertUserUseCase {
-    private static final Logger logger = LoggerFactory.getLogger(getUserUseCase.class);
-    private final iUserRepositoryPort userRepositoryPort;
+public class InsertUserUseCase {
+    private static final Logger logger = LoggerFactory.getLogger(GetUserUseCase.class);
+    private final IUserRepositoryPort userRepositoryPort;
     PasswordEncoder encoder;
 
     @Autowired
-    public insertUserUseCase(iUserRepositoryPort userRepositoryPort) {
+    public InsertUserUseCase(IUserRepositoryPort userRepositoryPort) {
         this.userRepositoryPort = userRepositoryPort;
         this.encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
-    public userEntity insertUser(userRequest userReq) {
-        Optional<userEntity> user = userRepositoryPort.getUserByUsername(userReq.getUsername());
+    public UserEntity insertUser(UserRequest userReq) {
+        Optional<UserEntity> user = userRepositoryPort.getUserByUsername(userReq.getUsername());
         if (user.isPresent()) {
-            throw new appException("username have been exist", HttpStatus.NOT_IMPLEMENTED);
+            throw new AppException("username have been exist", HttpStatus.NOT_IMPLEMENTED);
         }
         String password = encoder.encode(userReq.getPassword());
-        userEntity userEntity = new userEntity(userReq.getUsername(), password, userReq.getRole());
+        UserEntity userEntity = new UserEntity(userReq.getUsername(), password, userReq.getRole());
         return userRepositoryPort.insertUser(userEntity);
     }
 

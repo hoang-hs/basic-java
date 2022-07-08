@@ -2,7 +2,7 @@ package src.book.api.resources;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class errResource {
+public class ErrResource {
 
     @JsonProperty("http_code")
     private int httpCode;
@@ -10,7 +10,7 @@ public class errResource {
     @JsonProperty("message")
     private String message;
 
-    public errResource(int httpCode, String message) {
+    public ErrResource(int httpCode, String message) {
         this.httpCode = httpCode;
         this.message = message;
     }

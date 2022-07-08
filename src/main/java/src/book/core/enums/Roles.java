@@ -1,20 +1,19 @@
 package src.book.core.enums;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import src.book.core.usecases.getUserUseCase;
-import src.book.exception.systemErrorException;
+import src.book.exception.SystemErrorException;
 
-public enum roles {
+public enum Roles {
 
     ADMIN("ADMIN"),
     CLIENT("CLIENT");
     private final String role;
 
-    private static final Logger logger = LoggerFactory.getLogger(getUserUseCase.class);
+    private static final Logger logger = LoggerFactory.getLogger(Roles.class);
 
-    roles(String role) {
+    Roles(String role) {
         this.role = role;
     }
 
@@ -22,19 +21,19 @@ public enum roles {
         return this.role;
     }
 
-    public static roles fromString(String role) {
-        for (roles r : roles.values()) {
+    public static @NotNull Roles fromString(String role) {
+        for (Roles r : Roles.values()) {
             if (r.getRole().equals((role))) {
                 return r;
             }
         }
         logger.warn("role invalid, role: {}", role);
-        throw systemErrorException.Default();
+        throw SystemErrorException.Default();
     }
 
     public static boolean isMember(String role) {
-        roles[] allRole = roles.values();
-        for (roles r : allRole) {
+        Roles[] allRole = Roles.values();
+        for (Roles r : allRole) {
             if (r.role.equals(role)) {
                 return true;
             }

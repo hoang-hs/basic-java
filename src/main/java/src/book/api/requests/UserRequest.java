@@ -1,21 +1,18 @@
 package src.book.api.requests;
 
-import src.book.api.validate.roleAnnotation;
-import src.book.core.enums.roles;
+import src.book.api.validate.RoleAnnotation;
 
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.validation.constraints.NotBlank;
 
-public class userRequest {
+public class UserRequest {
     @NotBlank
     String username;
     @NotBlank
     String password;
-    @roleAnnotation
+    @RoleAnnotation(message = "role invalid aa")
     String role;
 
-    public userRequest(String username, String password, String role) {
+    public UserRequest(String username, String password, String role) {
         this.username = username;
         this.password = password;
         this.role = role;

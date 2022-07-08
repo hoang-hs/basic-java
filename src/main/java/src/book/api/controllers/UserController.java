@@ -4,12 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import src.book.api.convert.userConvert;
-import src.book.api.requests.userRequest;
-import src.book.api.resources.userResource;
-import src.book.core.entities.userEntity;
-import src.book.core.usecases.getUserUseCase;
-import src.book.core.usecases.insertUserUseCase;
+import src.book.api.convert.UserConvert;
+import src.book.api.requests.UserRequest;
+import src.book.api.resources.UserResource;
+import src.book.core.entities.UserEntity;
+import src.book.core.usecases.GetUserUseCase;
+import src.book.core.usecases.InsertUserUseCase;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
@@ -18,15 +18,15 @@ import java.util.List;
 @RestController
 @RequestMapping("/user")
 @Validated
-public class userController extends baseController {
+public class UserController extends baseController {
 
-    private final getUserUseCase getUserUseCase;
-    private final insertUserUseCase insertUserUseCase;
+    private final GetUserUseCase getUserUseCase;
+    private final InsertUserUseCase insertUserUseCase;
 
-    private final userConvert userConvert;
+    private final UserConvert userConvert;
 
     @Autowired
-    public userController(getUserUseCase getUserUseCase, insertUserUseCase insertUserUseCase, src.book.api.convert.userConvert userConvert) {
+    public UserController(GetUserUseCase getUserUseCase, InsertUserUseCase insertUserUseCase, UserConvert userConvert) {
         this.getUserUseCase = getUserUseCase;
         this.insertUserUseCase = insertUserUseCase;
         this.userConvert = userConvert;
@@ -34,22 +34,22 @@ public class userController extends baseController {
 
     @GetMapping("")
     @ResponseStatus(value = HttpStatus.OK)
-    List<userResource> getAllUser() {
-        List<userEntity> users = getUserUseCase.getAll();
+    List<UserResource> getAllUser() {
+        List<UserEntity> users = getUserUseCase.getAll();
         return userConvert.convertListUsersEntityToResource(users);
     }
 
     @GetMapping("/{id}")
     @ResponseStatus(value = HttpStatus.OK)
-    userResource getUserById(@PathVariable @Min(1) Long id) {
-        userEntity user = getUserUseCase.getUserById(id);
+    UserResource getUserById(@PathVariable @Min(1) Long id) {
+        UserEntity user = getUserUseCase.getUserById(id);
         return userConvert.convertUserEntityToResource(user);
     }
 
     @PostMapping("")
     @ResponseStatus(value = HttpStatus.OK)
-    userResource insertUser(@RequestBody @Valid userRequest userReq) {
-        userEntity user = insertUserUseCase.insertUser(userReq);
+    UserResource insertUser(@RequestBody @Valid UserRequest userReq) {
+        UserEntity user = insertUserUseCase.insertUser(userReq);
         return userConvert.convertUserEntityToResource(user);
     }
 

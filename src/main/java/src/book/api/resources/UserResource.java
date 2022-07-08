@@ -2,14 +2,14 @@ package src.book.api.resources;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class userResource {
+public class UserResource {
 
     @JsonProperty("id")
     private Long id;
     @JsonProperty("username")
     private String username;
 
-    public userResource() {
+    public UserResource() {
     }
 
     public Long getId() {

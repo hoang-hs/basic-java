@@ -1,5 +1,6 @@
 package src.book.api.middleware;
 
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
@@ -7,7 +8,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.util.ContentCachingRequestWrapper;
 import org.springframework.web.util.ContentCachingResponseWrapper;
-import src.book.core.usecases.getUserUseCase;
+import src.book.core.usecases.GetUserUseCase;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -18,12 +19,12 @@ import java.io.UnsupportedEncodingException;
 import java.util.UUID;
 
 @Component
-public class log extends OncePerRequestFilter {
+public class Log extends OncePerRequestFilter {
     private final int maxPayloadLength = 1000;
 
-    private static final Logger logger = LoggerFactory.getLogger(getUserUseCase.class);
+    private static final Logger logger = LoggerFactory.getLogger(GetUserUseCase.class);
 
-    private String getContentAsString(byte[] buf, int maxLength, String charsetName) {
+    private String getContentAsString(byte[] buf, String charsetName) {
         if (buf == null || buf.length == 0) return "";
         int length = Math.min(buf.length, this.maxPayloadLength);
         try {
@@ -34,7 +35,7 @@ public class log extends OncePerRequestFilter {
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(@NotNull HttpServletRequest request, @NotNull HttpServletResponse response, @NotNull FilterChain filterChain) throws ServletException, IOException {
         long startTime = System.currentTimeMillis();
         UUID uuid = UUID.randomUUID();
         MDC.put("request_id", uuid.toString());
@@ -52,7 +53,7 @@ public class log extends OncePerRequestFilter {
         filterChain.doFilter(wrappedRequest, wrappedResponse);
         long duration = System.currentTimeMillis() - startTime;
         // I can only log the request's body AFTER the request has been made and ContentCachingRequestWrapper did its work.
-        String requestBody = this.getContentAsString(wrappedRequest.getContentAsByteArray(), this.maxPayloadLength, request.getCharacterEncoding());
+        String requestBody = this.getContentAsString(wrappedRequest.getContentAsByteArray(), request.getCharacterEncoding());
         if (requestBody.length() > 0) {
             logger.debug("   Request body:\n" + requestBody);
         }
@@ -60,7 +61,7 @@ public class log extends OncePerRequestFilter {
         logger.info("response: [{}]", resInfo);
 
         byte[] buf = wrappedResponse.getContentAsByteArray();
-        logger.debug("   Response body:\n" + getContentAsString(buf, this.maxPayloadLength, response.getCharacterEncoding()));
+        logger.debug("   Response body:\n" + getContentAsString(buf, response.getCharacterEncoding()));
 
         wrappedResponse.copyBodyToResponse();  // IMPORTANT: copy content of response back into original response
     }
