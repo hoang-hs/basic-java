@@ -8,6 +8,8 @@ import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.filter.OncePerRequestFilter;
 import src.book.core.usecases.GetUserUseCase;
 import src.book.exception.AppException;
@@ -18,7 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class jwt extends OncePerRequestFilter {
+public class Jwt extends OncePerRequestFilter {
     private static final Logger logger = LoggerFactory.getLogger(GetUserUseCase.class);
 
     @Value("${security.jwt.secret}")
@@ -28,9 +30,12 @@ public class jwt extends OncePerRequestFilter {
     protected void doFilterInternal(@NotNull HttpServletRequest request, @NotNull HttpServletResponse response, @NotNull FilterChain filterChain) throws ServletException, IOException {
         String token = request.getHeader("Authorization");
         filterChain.doFilter(request, response);
-
     }
 
+
+//    public Authentication getAuthentication(String token) {
+//        return new UsernamePasswordAuthenticationToken(null, null)
+//    }
     public boolean validateToken(String token) {
         try {
             Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
