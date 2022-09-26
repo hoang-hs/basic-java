@@ -1,10 +1,7 @@
 package src.book.core.usecases;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import src.book.api.requests.UserRequest;
@@ -17,14 +14,14 @@ import java.util.Optional;
 
 @Service
 public class InsertUserUseCase {
-    private static final Logger logger = LoggerFactory.getLogger(GetUserUseCase.class);
     private final IUserRepositoryPort userRepositoryPort;
-    PasswordEncoder encoder;
+
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public InsertUserUseCase(IUserRepositoryPort userRepositoryPort) {
+    public InsertUserUseCase(IUserRepositoryPort userRepositoryPort, PasswordEncoder passwordEncoder) {
         this.userRepositoryPort = userRepositoryPort;
-        this.encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+        this.passwordEncoder = passwordEncoder;
     }
 
     public UserEntity insertUser(UserRequest userReq) {
@@ -32,7 +29,7 @@ public class InsertUserUseCase {
         if (user.isPresent()) {
             throw new AppException("username have been exist", HttpStatus.NOT_IMPLEMENTED);
         }
-        String password = encoder.encode(userReq.getPassword());
+        String password = passwordEncoder.encode(userReq.getPassword());
         UserEntity userEntity = new UserEntity(userReq.getUsername(), password, userReq.getRole());
         return userRepositoryPort.insertUser(userEntity);
     }

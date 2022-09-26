@@ -3,8 +3,15 @@ package src.book.exception;
 import org.springframework.http.HttpStatus;
 
 public class ResourceNotFoundException {
+
+    private static final AppException resourceNotFoundException =
+            new AppException("resource not found", HttpStatus.NOT_FOUND);
+//    public static AppException Default() {
+//        return new AppException("resource not found", HttpStatus.NOT_FOUND);
+//    }
+
     public static AppException Default() {
-        return new AppException("resource not found", HttpStatus.NOT_FOUND);
+        return resourceNotFoundException;
     }
 
     public static AppException WithMessage(String msg) {

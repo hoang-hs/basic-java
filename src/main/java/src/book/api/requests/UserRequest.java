@@ -9,7 +9,7 @@ public class UserRequest {
     String username;
     @NotBlank
     String password;
-    @RoleAnnotation(message = "role invalid aa")
+    @RoleAnnotation(message = "role invalid")
     String role;
 
     public UserRequest(String username, String password, String role) {

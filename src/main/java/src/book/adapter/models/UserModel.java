@@ -19,11 +19,18 @@ public class UserModel {
     @Column(name = "role", nullable = false)
     private String role;
 
-    public UserModel(String name, String password, Roles role) {
-        this.username = name;
-        this.password = password;
-        this.role = role.toString();
-    }
+//    public UserModel(String name, String password, Roles role) {
+//        this.username = name;
+//        this.password = password;
+//        this.role = role.toString();
+//    }
+
+
+//    public UserModel(String username, String password, String role) {
+//        this.username = username;
+//        this.password = password;
+//        this.role = role;
+//    }
 
     public UserModel() {
 
@@ -60,4 +67,12 @@ public class UserModel {
     public void setRole(Roles role) {
         this.role = role.toString();
     }
+
+//    public String getRole() {
+//        return role;
+//    }
+//
+//    public void setRole(String role) {
+//        this.role = role;
+//    }
 }

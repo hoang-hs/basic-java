@@ -6,7 +6,7 @@ import src.book.api.resources.TokenResource;
 import src.book.core.entities.TokenEntity;
 
 @Mapper
-public interface TokenConvert {
+public interface TokenConvert {;
 
     TokenConvert cloner = Mappers.getMapper(TokenConvert.class);
 

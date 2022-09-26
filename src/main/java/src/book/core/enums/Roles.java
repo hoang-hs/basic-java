@@ -3,9 +3,10 @@ package src.book.core.enums;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.GrantedAuthority;
 import src.book.exception.SystemErrorException;
 
-public enum Roles {
+public enum Roles implements GrantedAuthority {
 
     ADMIN("ADMIN"),
     CLIENT("CLIENT");
@@ -39,6 +40,10 @@ public enum Roles {
             }
         }
         return false;
+    }
+
+    public String getAuthority() {
+        return role;
     }
 
     @Override

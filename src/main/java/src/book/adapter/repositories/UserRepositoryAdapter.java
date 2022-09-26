@@ -1,6 +1,7 @@
 package src.book.adapter.repositories;
 
 
+import net.bytebuddy.dynamic.DynamicType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import src.book.adapter.mappers.UserMapper;
@@ -9,7 +10,7 @@ import src.book.adapter.repositories.database.UserRepository;
 import src.book.core.entities.UserEntity;
 import src.book.core.ports.IUserRepositoryPort;
 
-import java.util.ArrayList;
+import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
