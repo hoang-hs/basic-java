@@ -1,12 +1,12 @@
 package src.book.core.entities;
 
-import src.book.core.enums.Roles;
+import src.book.core.enums.Role;
 
 public class UserEntity {
     private Long id;
     private String username;
     private String password;
-    Roles role;
+    Role role;
 
     public UserEntity() {
     }
@@ -14,7 +14,7 @@ public class UserEntity {
     public UserEntity(String username, String password, String role) {
         this.username = username;
         this.password = password;
-        this.role = Roles.fromString(role);
+        this.role = Role.fromString(role);
     }
 
     public Long getId() {
@@ -41,11 +41,11 @@ public class UserEntity {
         this.password = password;
     }
 
-    public Roles getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(Roles role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 }

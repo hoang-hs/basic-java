@@ -1,6 +1,6 @@
 package src.book.adapter.models;
 
-import src.book.core.enums.Roles;
+import src.book.core.enums.Role;
 
 import javax.persistence.*;
 
@@ -64,7 +64,7 @@ public class UserModel {
         return role;
     }
 
-    public void setRole(Roles role) {
+    public void setRole(Role role) {
         this.role = role.toString();
     }
 

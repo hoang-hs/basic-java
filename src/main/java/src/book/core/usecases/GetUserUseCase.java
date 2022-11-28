@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import src.book.core.entities.UserEntity;
 import src.book.core.ports.IUserRepositoryPort;
-import src.book.exception.ResourceNotFoundException;
+import src.book.core.exception.ResourceNotFoundException;
 
 import java.util.List;
 import java.util.Optional;

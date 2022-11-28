@@ -9,21 +9,19 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 
-import src.book.api.requests.LoginRequest;
+import src.book.present.requests.LoginRequest;
 import src.book.core.entities.TokenEntity;
 import src.book.core.entities.UserEntity;
 import src.book.core.ports.IUserRepositoryPort;
-import src.book.exception.ResourceNotFoundException;
-import src.book.exception.SystemErrorException;
+import src.book.core.exception.ResourceNotFoundException;
+import src.book.core.exception.SystemErrorException;
 
 import javax.annotation.PostConstruct;
 import javax.validation.constraints.NotNull;
-import java.util.Base64;
-import java.util.Date;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 //@RequiredArgsConstructor
@@ -83,4 +81,9 @@ public class AuthUseCase {
         }
     }
 
+    private Set<SimpleGrantedAuthority> getAuthority(UserEntity user) {
+        Set<SimpleGrantedAuthority> authorities = new HashSet<>();
+        authorities.add(new SimpleGrantedAuthority(user.getRole().getAuthority()));
+        return authorities;
+    }
 }

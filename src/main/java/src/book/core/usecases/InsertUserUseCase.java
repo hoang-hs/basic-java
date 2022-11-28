@@ -4,10 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import src.book.api.requests.UserRequest;
+import src.book.present.requests.UserRequest;
 import src.book.core.entities.UserEntity;
 import src.book.core.ports.IUserRepositoryPort;
-import src.book.exception.AppException;
+import src.book.core.exception.AppException;
 
 import java.util.Optional;
 
