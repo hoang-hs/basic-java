@@ -34,4 +34,13 @@ public class GetUserUseCase {
         }
         return user.get();
     }
+
+    public UserEntity getUserByUserName(String username) {
+        Optional<UserEntity> user = userRepositoryPort.getUserByUsername(username);
+        if (user.isEmpty()) {
+            logger.warn("user not found, username: [{}]", username);
+            throw ResourceNotFoundException.Default();
+        }
+        return user.get();
+    }
 }

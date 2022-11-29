@@ -1,4 +1,4 @@
-package src.book.core.usecases;
+package src.book.present.security;
 
 
 import io.jsonwebtoken.Claims;
@@ -12,6 +12,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 
+import src.book.core.usecases.GetUserUseCase;
 import src.book.present.requests.LoginRequest;
 import src.book.core.entities.TokenEntity;
 import src.book.core.entities.UserEntity;
@@ -36,7 +37,7 @@ public class AuthUseCase {
     @Value("${security.jwt.expire-length}")
     private int expireLength;
 
-    private final IUserRepositoryPort userRepositoryPort;
+    private final GetUserUseCase getUserUseCase;
 
 
     @PostConstruct
@@ -45,9 +46,9 @@ public class AuthUseCase {
     }
 
     @Autowired
-    public AuthUseCase(AuthenticationManager authenticationManager, IUserRepositoryPort userRepositoryPort) {
+    public AuthUseCase(AuthenticationManager authenticationManager, GetUserUseCase getUserUseCase) {
         this.authenticationManager = authenticationManager;
-        this.userRepositoryPort = userRepositoryPort;
+        this.getUserUseCase = getUserUseCase;
     }
 
     public TokenEntity login(LoginRequest req) {
@@ -55,12 +56,9 @@ public class AuthUseCase {
         String password = req.getPassword();
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
-            Optional<UserEntity> user = userRepositoryPort.getUserByUsername(req.getUsername());
-            if (user.isEmpty()) {
-                throw SystemErrorException.Default();
-            }
+            UserEntity user = getUserUseCase.getUserByUserName(req.getUsername());
             Claims claims = Jwts.claims().setSubject(username);
-            claims.put("auth", user.get().getRole());
+            claims.put("auth", user.getRole());
 
             Date now = new Date();
             Date validity = new Date(now.getTime() + expireLength);
@@ -73,7 +71,7 @@ public class AuthUseCase {
                     .compact();
             return new TokenEntity(atToken, expireLength, "a", 1);
         } catch (AuthenticationException e) {
-            if (Objects.equals(e.getMessage(), "user not found")) {
+            if (Objects.equals(e.getMessage(), ResourceNotFoundException.Default().getMessage())) {
                 throw ResourceNotFoundException.WithMessage(e.getMessage());
             } else {
                 throw ResourceNotFoundException.WithMessage("password wrong");
