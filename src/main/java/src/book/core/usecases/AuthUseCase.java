@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import src.book.core.entities.TokenEntity;
@@ -36,7 +37,11 @@ public class AuthUseCase {
     }
 
     public TokenEntity signin(LoginRequest req) {
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(req.getUsername(), req.getPassword()));
+        try {
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(req.getUsername(), req.getPassword()));
+        } catch (AuthenticationException ex) {
+            throw new AppException("Invalid username/password supplied", HttpStatus.UNPROCESSABLE_ENTITY);
+        }
         Optional<UserEntity> user = userRepositoryPort.getUserByUsername(req.getUsername());
         if (user.isEmpty()) {
             throw new AppException("Invalid username/password supplied", HttpStatus.UNPROCESSABLE_ENTITY);
