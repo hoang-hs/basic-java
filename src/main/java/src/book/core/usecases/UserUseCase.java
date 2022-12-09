@@ -12,13 +12,13 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class GetUserUseCase {
+public class UserUseCase {
 
-    private static final Logger logger = LoggerFactory.getLogger(GetUserUseCase.class);
+    private static final Logger logger = LoggerFactory.getLogger(UserUseCase.class);
     private final IUserRepositoryPort userRepositoryPort;
 
     @Autowired
-    public GetUserUseCase(IUserRepositoryPort userRepositoryPort) {
+    public UserUseCase(IUserRepositoryPort userRepositoryPort) {
         this.userRepositoryPort = userRepositoryPort;
     }
 

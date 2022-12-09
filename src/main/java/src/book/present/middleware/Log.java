@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.util.ContentCachingRequestWrapper;
 import org.springframework.web.util.ContentCachingResponseWrapper;
-import src.book.core.usecases.GetUserUseCase;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -22,7 +21,7 @@ import java.util.UUID;
 public class Log extends OncePerRequestFilter {
     private final int maxPayloadLength = 1000;
 
-    private static final Logger logger = LoggerFactory.getLogger(GetUserUseCase.class);
+    private static final Logger logger = LoggerFactory.getLogger(Log.class);
 
     private String getContentAsString(byte[] buf, String charsetName) {
         if (buf == null || buf.length == 0) return "";

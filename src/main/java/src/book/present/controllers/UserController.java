@@ -5,10 +5,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import src.book.core.entities.UserEntity;
+import src.book.core.usecases.UserUseCase;
 import src.book.present.convert.UserConvert;
 import src.book.present.resources.UserResource;
-import src.book.core.entities.UserEntity;
-import src.book.core.usecases.GetUserUseCase;
 
 import javax.validation.constraints.Min;
 import java.util.List;
@@ -18,25 +18,25 @@ import java.util.List;
 @Validated
 public class UserController extends BaseController {
 
-    private final GetUserUseCase getUserUseCase;
+    private final UserUseCase userUseCase;
 
     @Autowired
-    public UserController(GetUserUseCase getUserUseCase) {
-        this.getUserUseCase = getUserUseCase;
+    public UserController(UserUseCase userUseCase) {
+        this.userUseCase = userUseCase;
     }
 
     @GetMapping("")
     @ResponseStatus(value = HttpStatus.OK)
     @PreAuthorize("hasRole('ADMIN') or hasRole('CLIENT')")
     List<UserResource> getAllUser() {
-        List<UserEntity> users = getUserUseCase.getAll();
+        List<UserEntity> users = userUseCase.getAll();
         return UserConvert.Cloner.usersEntityToResource(users);
     }
 
     @GetMapping("/{id}")
     @ResponseStatus(value = HttpStatus.OK)
     UserResource getUserById(@PathVariable @Min(1) Long id) {
-        UserEntity user = getUserUseCase.getUserById(id);
+        UserEntity user = userUseCase.getUserById(id);
         return UserConvert.Cloner.userEntityToResource(user);
     }
 }

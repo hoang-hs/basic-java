@@ -1,5 +1,8 @@
 package src.book.core.entities;
 
+import lombok.Data;
+
+@Data
 public class TokenEntity {
     private String AccessToken;
     private int AtExpiresIn;
