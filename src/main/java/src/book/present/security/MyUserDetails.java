@@ -27,7 +27,10 @@ public class MyUserDetails implements UserDetailsService {
             throw new UsernameNotFoundException("User '" + username + "' not found");
         }
         UserEntity u = user.get();
-        return org.springframework.security.core.userdetails.User.withUsername(u.getUsername()).password(u.getPassword()).authorities(u.getRole())//
+        return org.springframework.security.core.userdetails.User.
+                withUsername(u.getUsername())
+                .password(u.getPassword())
+                .authorities(u.getRole())//
                 .accountExpired(false)//
                 .accountLocked(false)//
                 .credentialsExpired(false)//

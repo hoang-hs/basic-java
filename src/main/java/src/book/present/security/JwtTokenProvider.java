@@ -14,8 +14,9 @@ import org.springframework.stereotype.Component;
 import src.book.core.enums.Role;
 import src.book.core.exception.AppException;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
-import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.Date;
 
 @Component
@@ -29,7 +30,7 @@ public class JwtTokenProvider {
     private String secretKey;
 
     @Value("${security.jwt.expire-length}")
-    private long validityInMilliseconds = 3600000; // 1h
+    private int expireAccessToken;
 
     private final MyUserDetails myUserDetails;
 
@@ -38,19 +39,24 @@ public class JwtTokenProvider {
         this.myUserDetails = myUserDetails;
     }
 
+    @PostConstruct
+    protected void init() {
+        secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
+    }
+
     public String createToken(String username, Role role) {
 
         Claims claims = Jwts.claims().setSubject(username);
         claims.put("auth", role.getAuthority());
 
         Date now = new Date();
-        Date validity = new Date(now.getTime() + validityInMilliseconds);
+        Date validity = new Date(now.getTime() + (long) this.expireAccessToken * 1000 * 60);
 
         return Jwts.builder()//
                 .setClaims(claims)//
                 .setIssuedAt(now)//
                 .setExpiration(validity)//
-                .signWith(SignatureAlgorithm.HS256, secretKey.getBytes(StandardCharsets.UTF_8))//
+                .signWith(SignatureAlgorithm.HS256, secretKey)//
                 .compact();
     }
 

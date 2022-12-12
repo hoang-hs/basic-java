@@ -27,7 +27,7 @@ public class UserController extends BaseController {
 
     @GetMapping("")
     @ResponseStatus(value = HttpStatus.OK)
-    @PreAuthorize("hasRole('ADMIN') or hasRole('CLIENT')")
+//    @PreAuthorize("hasAnyRole('ADMIN')")
     List<UserResource> getAllUser() {
         List<UserEntity> users = userUseCase.getAll();
         return UserConvert.Cloner.usersEntityToResource(users);
