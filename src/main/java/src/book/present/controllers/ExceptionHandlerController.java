@@ -6,6 +6,7 @@ import org.slf4j.MDC;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -84,6 +85,15 @@ public class ExceptionHandlerController {
         logger.error("id: {}, msg: {}, request description: {}", uuid, ex.getMessage(), request.getDescription(false));
         ex.printStackTrace();
         return new ErrResource(HttpStatus.INTERNAL_SERVER_ERROR.value(), "system error");
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    @ResponseStatus(value = HttpStatus.FORBIDDEN)
+    public ErrResource accessDeniedExceptionHandler(Exception ex, WebRequest request) {
+        String uuid = MDC.get("request_id");
+        logger.error("id: {}, msg: {}, request description: {}", uuid, ex.getMessage(), request.getDescription(false));
+        ex.printStackTrace();
+        return new ErrResource(HttpStatus.FORBIDDEN.value(), "access denied");
     }
 
 }

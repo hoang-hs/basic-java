@@ -19,7 +19,6 @@ public class MyUserDetails implements UserDetailsService {
         this.userRepositoryPort = userRepositoryPort;
     }
 
-
     @Override
     public org.springframework.security.core.userdetails.UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<UserEntity> user = userRepositoryPort.getUserByUsername(username);
@@ -30,7 +29,7 @@ public class MyUserDetails implements UserDetailsService {
         return org.springframework.security.core.userdetails.User.
                 withUsername(u.getUsername())
                 .password(u.getPassword())
-                .authorities(u.getRole())//
+                .authorities(u.getRole().getAuthority())//
                 .accountExpired(false)//
                 .accountLocked(false)//
                 .credentialsExpired(false)//
